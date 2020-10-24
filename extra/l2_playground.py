@@ -7,14 +7,14 @@ from statistics import mean
 
 
 def random_value(max_value):
-	generated = randint(0, 5)
-	if not generated:  # generated = 0
-		return 0
-	if generated == 1:
-		return math.ceil(max_value * .7)
-	if generated == 2:
-		return math.ceil(max_value * 0.9)
-	return max_value
+    generated = randint(0, 5)
+    if not generated:  # generated = 0
+        return 0
+    if generated == 1:
+        return math.ceil(max_value * .7)
+    if generated == 2:
+        return math.ceil(max_value * 0.9)
+    return max_value
 
 
 # Task 1
@@ -23,8 +23,8 @@ students_groups = {}
 
 # solution
 for record in students_str.split('; '):
-	student, group = record.split(' - ')
-	bisect.insort(students_groups.setdefault(group, []), student)
+    student, group = record.split(' - ')
+    bisect.insort(students_groups.setdefault(group, []), student)
 
 print(students_groups, '\n')
 
@@ -33,8 +33,8 @@ points = [5, 8, 12, 12, 12, 12, 12, 12, 15]
 
 # solution
 student_points = {
-	group: {student: [random_value(value) for value in points] for student in students}
-	for group, students in students_groups.items()
+    group: {student: [random_value(value) for value in points] for student in students}
+    for group, students in students_groups.items()
 }
 
 print(student_points, '\n')
@@ -42,8 +42,8 @@ print(student_points, '\n')
 # Task 3
 # solution
 sum_points = {
-	group: {student: sum(points) for student, points in students.items()}
-	for group, students in student_points.items()
+    group: {student: sum(points) for student, points in students.items()}
+    for group, students in student_points.items()
 }
 
 print(sum_points, '\n')
@@ -57,8 +57,8 @@ print(group_avg, '\n')
 # Task 5
 # solution
 passed_per_group = {
-	group: [student for student, mark in students.items() if mark >= 60]
-	for group, students in sum_points.items()
+    group: [student for student, mark in students.items() if mark >= 60]
+    for group, students in sum_points.items()
 }
 
 print(passed_per_group)
