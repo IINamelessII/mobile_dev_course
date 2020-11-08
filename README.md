@@ -18,4 +18,4 @@ P.S.Dynamic layout works OK, weird behaviour caused by screen-recording soft. Yo
 
 ![Example(GIF)](examples/Assignment3.gif)
 
-If there are any troubles with the GIF file, please check [original video](examples/Assignment3.mp4)
+If there are any troubles with the GIF file, You can check [original video](examples/Assignment3.mp4)
