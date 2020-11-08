@@ -14,6 +14,8 @@ P.S. I have done assignment accounting that I have to find avg mark(sum of point
 [Programming assignment 3] During the development process no problems were faced.
 
 ### Execution example:
+P.S.Dynamic layout works OK, weird behaviour caused by screen-recording soft. You can see network/battery icons on top of the actual app.
+
 ![Example(GIF)](examples/Assignment3.gif)
 
 If there are any troubles with the GIF file, please check [original video](examples/Assignment3.mp4)
