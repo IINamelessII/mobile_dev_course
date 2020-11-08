@@ -35,7 +35,7 @@ const Movies = () => {
 
 const styles = StyleSheet.create({
 	container: {
-			marginTop: 20,
+		marginTop: 20,
 	},
 });
 

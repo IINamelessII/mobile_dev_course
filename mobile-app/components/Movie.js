@@ -2,19 +2,28 @@ import React, {useEffect, useState} from 'react';
 import { View, Text, Image, StyleSheet } from 'react-native';
 
 const Movie = ({title, year, type, poster}) => {
-  const [posterImg, setPosterImg] = useState(null);
+  const [posterImg, setPosterImg] = useState('data:image/png;base64,');
 
   useEffect(() => {
     (async () => {
+      if (!poster) {
+        return;
+      }
+
       let response = await fetch('https://8aebb2537381.ngrok.io/static/posters/' + poster);
       let responseBlob = await response.blob();
-      setPosterImg(responseBlob);
+      const reader = new FileReader();
+      reader.readAsDataURL(responseBlob);
+      reader.onloadend = () => setPosterImg(reader.result);
     })();
   }, []);
 
   return (
     <View style={styles.wrapper}>
-      <Image style={styles.poster} source={posterImg}></Image>
+      <Image
+        source={{uri: posterImg}}
+        style={styles.poster}
+      />
       <View style={styles.info}>
         <Text style={styles.text}>{title}</Text>
         <Text style={styles.text}>{year}</Text>

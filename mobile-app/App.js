@@ -15,9 +15,9 @@ const App = () => {
       const activeSize = focused ? size * 1.05 : size * .85;
 
       if (route.name === 'Info') {
-        return <FontAwesome5 name="info" size={activeSize} color={color} />;
+        return <FontAwesome5 name='info' size={activeSize} color={color} />;
       } else if (route.name === 'Movies') {
-        return <MaterialCommunityIcons name="movies" size={activeSize} color={color} />;
+        return <MaterialCommunityIcons name='library-movie' size={activeSize} color={color} />;
       }
     }
   });
@@ -30,8 +30,8 @@ const App = () => {
           inactiveTintColor: 'black',
           activeTintColor: 'blue'
         }}>
-        <Tab.Screen name="Info" component={InfoTab} />
-        <Tab.Screen name="Movies" component={Movies} />
+        <Tab.Screen name='Info' component={InfoTab} />
+        <Tab.Screen name='Movies' component={Movies} />
       </Tab.Navigator>
     </NavigationContainer>
   );
