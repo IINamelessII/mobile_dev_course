@@ -1,22 +1,40 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import InfoTab from './components/InfoTab';
+import Movies from './components/Movies';
+import {FontAwesome5} from '@expo/vector-icons';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
 
-export default function App() {
+const Tab = createBottomTabNavigator();
+
+const App = () => {
+
+  const routing = ({route}) => ({
+    tabBarIcon: ({focused, color, size}) => {
+      const activeSize = focused ? size * 1.05 : size * .85;
+
+      if (route.name === 'Info') {
+        return <FontAwesome5 name="info" size={activeSize} color={color} />;
+      } else if (route.name === 'Movies') {
+        return <MaterialCommunityIcons name="movies" size={activeSize} color={color} />;
+      }
+    }
+  });
+  
   return (
-    <View style={styles.container}>
-      <Text>Yea, another Hello World ¯\_(ツ)_/¯</Text>
-      <Text>Made by: Oleh Serikov from IV-72</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Tab.Navigator
+        screenOptions={routing}
+        tabBarOptions={{
+          inactiveTintColor: 'black',
+          activeTintColor: 'blue'
+        }}>
+        <Tab.Screen name="Info" component={InfoTab} />
+        <Tab.Screen name="Movies" component={Movies} />
+      </Tab.Navigator>
+    </NavigationContainer>
   );
-}
+};
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
