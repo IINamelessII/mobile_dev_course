@@ -10,7 +10,7 @@ const Movie = ({title, year, type, poster}) => {
         return;
       }
 
-      let response = await fetch('https://8aebb2537381.ngrok.io/static/posters/' + poster);
+      let response = await fetch('https://7424e15b8ca4.ngrok.io/static/posters/' + poster);
       let responseBlob = await response.blob();
       const reader = new FileReader();
       reader.readAsDataURL(responseBlob);

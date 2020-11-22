@@ -13,16 +13,20 @@ routes = web.RouteTableDef()
 
 @routes.get('/movies')
 async def handle_movies(_request):
-    """Return all Movies as a single JSON stream"""
+    """Return all Movies as a single JSON array"""
 
-    filepath = os.path.join(STATIC_PATH, 'MoviesList.txt')
+    movies_paths = os.listdir(os.path.join(STATIC_PATH, 'movies'))
+    movies = []
 
-    # read content
-    async with AIOFile(filepath, 'r') as afp:
-        content = await afp.read()
+    # read data
+    for movie_path in movies_paths:
+        async with AIOFile(os.path.join(STATIC_PATH, 'movies', movie_path), 'r') as afp:
+            content = await afp.read()
+        movies.append(content)
 
-    # return as is
-    return web.Response(body=content, content_type='application/json')
+    # concatenate strings: json objects into array
+    body = f'[{",".join(movies)}]'
+    return web.Response(body=body, content_type='application/json')
 
 
 @routes.get('/static/posters/{filename}')

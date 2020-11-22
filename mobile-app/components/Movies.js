@@ -7,9 +7,9 @@ const Movies = () => {
 
   useEffect(() => {
     (async () => {
-      let response = await fetch('https://8aebb2537381.ngrok.io/movies')
+      let response = await fetch('https://7424e15b8ca4.ngrok.io/movies')
       let responseData = await response.json();
-      setMovies(responseData.Search);
+      setMovies(responseData);
     })();
   }, []);
 
