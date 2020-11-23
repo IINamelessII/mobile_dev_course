@@ -1,16 +1,22 @@
 import React, {useEffect, useState} from 'react';
-import { View, Text, Image, StyleSheet } from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {useNavigation} from '@react-navigation/native'
 
-const Movie = ({title, year, type, poster}) => {
+const Movie = ({data}) => {
   const [posterImg, setPosterImg] = useState('data:image/png;base64,');
+  const navigation = useNavigation();
+
+  const openFullMovie = () => {
+    navigation.navigate('Full Movie', {posterImg, data});
+  };
 
   useEffect(() => {
     (async () => {
-      if (!poster) {
+      if (!data.Poster) {
         return;
       }
 
-      let response = await fetch('https://7424e15b8ca4.ngrok.io/static/posters/' + poster);
+      let response = await fetch('https://de57b61d0341.ngrok.io/static/posters/' + data.Poster);
       let responseBlob = await response.blob();
       const reader = new FileReader();
       reader.readAsDataURL(responseBlob);
@@ -19,17 +25,19 @@ const Movie = ({title, year, type, poster}) => {
   }, []);
 
   return (
-    <View style={styles.wrapper}>
-      <Image
-        source={{uri: posterImg}}
-        style={styles.poster}
-      />
-      <View style={styles.info}>
-        <Text style={styles.text}>{title}</Text>
-        <Text style={styles.text}>{year}</Text>
-        <Text style={styles.text}>{type}</Text>
+    <TouchableOpacity onPress={openFullMovie}>
+      <View style={styles.wrapper}>
+        <Image
+          source={{uri: posterImg}}
+          style={styles.poster}
+        />
+        <View style={styles.info}>
+          <Text style={styles.text}>{data.Title}</Text>
+          <Text style={styles.text}>{data.Year}</Text>
+          <Text style={styles.text}>{data.Type}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
@@ -38,7 +46,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     margin: 1.5,
     padding: 20,
-    borderBottomWidth: .2,
   },
   poster: {
     width: 85,
