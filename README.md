@@ -1,5 +1,7 @@
 # Mobile Development
 
+## Variant = 7222 % 6 = 4
+
 [Programming assignment 1] During the development process no problems were faced.
 
 [Programming assignment 2] Description of Playground - Task 4 is slightly confusing
