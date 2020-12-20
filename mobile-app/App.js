@@ -9,6 +9,7 @@ import Gallery from './components/Gallery';
 import Movies from './components/Movies';
 import FullMovie from './components/FullMovie';
 import NewMovie from './components/NewMovie';
+import Charts from './components/Charts';
 
 const Tab = createBottomTabNavigator();
 const MoviesStack = createStackNavigator();
@@ -36,14 +37,12 @@ const App = () => {
     tabBarIcon: ({focused, color, size}) => {
       const activeSize = focused ? size * 1.05 : size * .85;
 
-      if (route.name === 'Info') {
-        return <FontAwesome5 name='info' size={activeSize} color={color} />;
-      } else if (route.name === 'Movies') {
-        return <AntDesign name='database' size={activeSize} color={color} />;
-      } else if (route.name === 'Add Movie') {
-        return <AntDesign name='plussquare' size={activeSize} color={color} />;
-      } else if (route.name === 'Gallery') {
-        return <Ionicons name='ios-images' size={activeSize} color={color} />;
+      switch(route.name) {
+        case 'Gallery': return <Ionicons name='ios-images' size={activeSize} color={color} />;
+        case 'Charts': return <AntDesign name='linechart' size={activeSize} color={color}/>;
+        case 'Movies': return <AntDesign name='database' size={activeSize} color={color} />;
+        case 'Add Movie': return <AntDesign name='plussquare' size={activeSize} color={color} />;
+        case 'Info': return <FontAwesome5 name='info' size={activeSize} color={color}/>;
       }
     }
   });
@@ -70,6 +69,7 @@ const App = () => {
           activeTintColor: 'blue'
         }}>
         <Tab.Screen name='Gallery' component={Gallery} />
+        <Tab.Screen name='Charts' component={Charts} />
         <Tab.Screen name='Movies' component={MoviesStackScreen} />
         <Tab.Screen name='Add Movie' children={() => <NewMovie onAddMovie={onAddMovieHandler} />} />
         <Tab.Screen name='Info' component={InfoTab} />
