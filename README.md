@@ -21,8 +21,10 @@ P.S. I have done assignment accounting that I have to find avg mark(sum of point
 
 [Programming assignment 6] During the development process no problems were faced.
 
-### Execution example (assignment 6):
+[Programming assignment 7] During the development process no problems were faced.
 
-![Example(GIF)](examples/Assignment6.gif)
+### Execution example (assignment 7):
 
-If there are any troubles with the GIF file, You can check [the original video](examples/Assignment6.mp4)
+![Example(GIF)](examples/Assignment7.gif)
+
+If there are any troubles with the GIF file, You can check [the original video](examples/Assignment7.mp4)
