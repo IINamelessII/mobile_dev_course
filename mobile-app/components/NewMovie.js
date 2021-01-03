@@ -5,7 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import moment from 'moment';
 
-export default function NewRecord({onAddMovie}) {
+const NewMovie = ({onAddMovie}) => {
   const [releaseDate, setReleaseDate] = useState(new Date());
   const [isPickerShown, setIsPickerShown] = useState(false);
   const [type, setType] = useState('');
@@ -132,3 +132,5 @@ const styles = StyleSheet.create({
     marginVertical: 12.5
   }
 });
+
+export default NewMovie;

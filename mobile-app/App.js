@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
@@ -17,18 +17,7 @@ const MoviesStack = createStackNavigator();
 const App = () => {
   const [movies, setMovies] = useState([]);
 
-  useEffect(() => {
-    (async () => {
-      let response = await fetch('https://de57b61d0341.ngrok.io/movies')
-      let responseData = await response.json();
-      setMovies(responseData);
-    })();
-  }, []);
-
-  const onRemoveMovieHandler = imdbId => {
-    setMovies(currentMovies => currentMovies.filter(mv => mv.imdbID !== imdbId));
-  };
-
+  // TODO: migrate on the new list
   const onAddMovieHandler = movie => {
     setMovies(currentMovies => [...currentMovies, movie]);
   };
@@ -51,7 +40,7 @@ const App = () => {
     <MoviesStack.Navigator>
       <MoviesStack.Screen
         name='Movies'
-        children={() => <Movies movies={movies} onRemoveMovie={onRemoveMovieHandler} />}
+        component={Movies}
       />
       <MoviesStack.Screen
         name='Full Movie'

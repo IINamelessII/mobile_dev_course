@@ -1,40 +1,32 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
-import {useNavigation} from '@react-navigation/native'
+import React from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {Divider} from 'react-native-elements';
+import Spinner from './Spinner';
+import Image from 'react-native-image-progress';
 
 const Movie = ({data}) => {
-  const [posterImg, setPosterImg] = useState('data:image/png;base64,');
   const navigation = useNavigation();
 
   const openFullMovie = () => {
-    navigation.navigate('Full Movie', {posterImg, data});
+    navigation.navigate('Full Movie', {imdbId: data.imdbID});
   };
-
-  useEffect(() => {
-    (async () => {
-      if (!data.Poster) {
-        return;
-      }
-
-      let response = await fetch('https://de57b61d0341.ngrok.io/static/posters/' + data.Poster);
-      let responseBlob = await response.blob();
-      const reader = new FileReader();
-      reader.readAsDataURL(responseBlob);
-      reader.onloadend = () => setPosterImg(reader.result);
-    })();
-  }, []);
 
   return (
     <TouchableOpacity onPress={openFullMovie}>
       <View style={styles.wrapper}>
         <Image
-          source={{uri: posterImg}}
           style={styles.poster}
+          source={{uri: data.Poster}}
+          onPress={openFullMovie}
+          indicator={Spinner}
+          threshold={100}
         />
         <View style={styles.info}>
           <Text style={styles.text}>{data.Title}</Text>
           <Text style={styles.text}>{data.Year}</Text>
           <Text style={styles.text}>{data.Type}</Text>
+          <Divider style={styles.divider} />
         </View>
       </View>
     </TouchableOpacity>
@@ -57,6 +49,9 @@ const styles = StyleSheet.create({
   },
   text: {
     marginBottom: 5,
+  },
+  divider: {
+    backgroundColor: 'black',
   },
 });
 

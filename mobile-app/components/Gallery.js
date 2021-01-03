@@ -24,6 +24,17 @@ const Gallery = () => {
   });
 
   useEffect(() => {
+    const url = `https://pixabay.com/api/?key=19193969-87191e5db266905fe8936d565&q=fun+party&image_type=photo&per_page=30`;
+
+    (async () => {
+      const response = await fetch(url);
+      const responseData = await response.json();
+      const loadedDataURIs = responseData['hits'].map(item => ({uri: item['largeImageURL']}));
+      setGallery(loadedDataURIs);
+    })();
+  }, []);
+  
+  useEffect(() => {
     (async () => {
       const {status} = await ImagePicker.requestCameraRollPermissionsAsync();
 

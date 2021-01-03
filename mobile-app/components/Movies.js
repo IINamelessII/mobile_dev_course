@@ -1,66 +1,58 @@
-import React, {useState} from 'react';
-import {StyleSheet, FlatList, ScrollView, SafeAreaView, TextInput, TouchableOpacity, Text} from 'react-native';
-import Swipeout from 'react-native-swipeout';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, FlatList, SafeAreaView, TextInput, TouchableOpacity, Text} from 'react-native';
 import Movie from './Movie';
 
-const Movies = ({movies, onRemoveMovie}) => {
-  const [enteredQuery, setEnteredQoery] = useState('');
-  const [filteredMovies, setFilteredMovies] = useState([...movies]);
+const Movies = () => {
+  const [enteredQuery, setEnteredQuery] = useState('');
+  const [filteredMovies, setFilteredMovies] = useState([]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
-  const enteredQueryHandler = query => {
-    setEnteredQoery(query);
+  useEffect(() => {
+    const formattedQuery = enteredQuery.trim().toLowerCase();
 
-    query = query.trim().toLowerCase();
-    setFilteredMovies(movies.filter(mv => mv.Title.toLowerCase().includes(query)));
-  };
+    if (formattedQuery.length >= 3) {
+      const url = `http://www.omdbapi.com/?apikey=7e9fe69e&s=${formattedQuery}&page=1`;
+
+      (async () => {
+        const response = await fetch(url);
+        const responseData = await response.json();
+
+        if (responseData.Search !== undefined) {
+          setFilteredMovies(responseData.Search);
+        }
+        setIsLoaded(responseData.Response !== 'False');
+      })();
+    }
+  }, [enteredQuery]);
 
   const removeMovieHandler = imdbId => {
-    onRemoveMovie(imdbId);
     setFilteredMovies(currentMovies => currentMovies.filter(mv => mv.imdbID === imdbId));
   };
 
-  const renderMovie = movie => {
-    const swipeoutParams = [{
-      text: '-',
-      sensitivity: 80,
-      backgroundColor: 'red',
-      underlayColor: 'transparent',
-      onPress: () => removeMovieHandler(movie.item.imdbID),
-    }];
-
-    return (
-      <Swipeout
-        autoclose={true}
-        backgroundColor='transparent'
-        right={swipeoutParams}
-      >
-        <TouchableOpacity>
-          <Movie data={movie.item} />
-        </TouchableOpacity>
-      </Swipeout>
-    );
-  };
+  const renderMovie = movie => (
+    <TouchableOpacity>
+      <Movie data={movie.item} />
+    </TouchableOpacity>
+  );
 
   return (
-    <ScrollView style={styles.container}>
-      <SafeAreaView>
-        <TextInput
-          style={styles.search}
-          numberOfLines={1}
-          autoCapitalize='none'
-          autoCorrect={false}
-          clearButtonMode='always'
-          placeholder='Start typing a Title...'
-          value={enteredQuery}
-          onChangeText={enteredQueryHandler}
-        />
-        {
-          filteredMovies.length
-            ? <FlatList data={filteredMovies} renderItem={renderMovie} keyExtractor={mv => mv.imdbID} />
-            : <Text style={styles.empty}>There are no Movies with requested Title</Text>
-        }
-      </SafeAreaView>
-    </ScrollView>
+    <SafeAreaView style={styles.container}>
+      <TextInput
+        style={styles.search}
+        numberOfLines={1}
+        autoCapitalize='none'
+        autoCorrect={false}
+        clearButtonMode='always'
+        placeholder='Start typing a Title...'
+        value={enteredQuery}
+        onChangeText={setEnteredQuery}
+      />
+      {
+        filteredMovies?.length !== 0 && isLoaded
+          ? <FlatList data={filteredMovies} renderItem={renderMovie} keyExtractor={mv => mv.imdbID} />
+          : <Text style={styles.empty}>There are no Movies with requested Title</Text>
+      }
+    </SafeAreaView>
   );
 };
 
@@ -82,13 +74,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 1,
-    elevation: 5
+    elevation: 5,
   },
   empty: {
     alignSelf: 'center',
     height: '100%',
-    lineHeight: 75
-  }
+    lineHeight: 75,
+  },
 });
 
 export default Movies;

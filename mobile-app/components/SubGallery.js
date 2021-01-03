@@ -1,12 +1,14 @@
 import React from 'react';
-import {View, Image, StyleSheet} from 'react-native';
+import {View, StyleSheet} from 'react-native';
+import Spinner from './Spinner';
+import Image from 'react-native-image-progress';
 
 const SubGallery = ({gallery, w, h}) => {
   const p = {width: w, height: h};
   const p2 = {width: w * 2, height: h * 2};
 
   const SGImage = (uri, cls = p) => (
-    <Image style={cls} source={uri} />
+    <Image style={cls} source={uri} indicator={Spinner} threshold={100} />
   );
 
   return (
